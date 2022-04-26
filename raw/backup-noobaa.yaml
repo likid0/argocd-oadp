@@ -1,0 +1,34 @@
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup-noobaa16
+  namespace: openshift-adp
+spec:
+  defaultVolumesToRestic: false
+  hooks:
+    resources:
+      - name: postgreSQL
+        includedResources:
+        - pods 
+        excludedResources: []
+        labelSelector: 
+          matchLabels:
+            noobaa-db: postgres
+        pre: 
+          - exec: 
+              container: db
+              command:
+                - psql
+                - nbcore
+                - -c
+                - CHECKPOINT;
+              onError: Fail
+              timeout: 30s
+  includedNamespaces:
+  - openshift-storage
+  labelSelector:
+    matchLabels:
+      app: noobaa
+  metadata: {}
+  storageLocation: dpa-rgw-odf-1
+  ttl: 720h0m0s

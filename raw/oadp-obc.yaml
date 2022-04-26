@@ -1,0 +1,10 @@
+---
+# Source: oadp-argocd/templates/oadp-obc.yaml
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: oadp-s3-bucket-rgw
+  namespace: openshift-adp
+spec:
+  generateBucketName: oadp-s3-bucket
+  storageClassName: ocs-ceph-rgw

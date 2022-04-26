@@ -1,0 +1,35 @@
+---
+# Source: oadp-argocd/templates/oadp-dpa.yaml
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name: dpa-rgw-odf
+  namespace: openshift-adp
+spec:
+  backupLocations:
+  - velero:
+      backupSyncPeriod: 2m0s
+      config:
+        profile: default
+        region: us-east-1
+        insecureSkipTLSVerify: "true"
+        s3ForcePathStyle: "true"
+        s3Url: https://rook-ceph-rgw-ocs-cephobjectstore.openshift-storage.svc/
+      credential:
+        key: cloud
+        name: cloud-credentials
+      default: true
+      objectStorage:
+        bucket: oadp-s3-bucket-8f51e57e-b9af-421e-a759-e666b8eca62e
+        prefix: velero
+      provider: aws
+  configuration:
+    restic:
+      enable: true
+    velero:
+      defaultPlugins:
+      - openshift
+      - aws
+      - csi
+      featureFlags:
+      - EnableCSI

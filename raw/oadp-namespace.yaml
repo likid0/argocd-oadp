@@ -1,0 +1,13 @@
+---
+# Source: oadp-argocd/templates/oadp-namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    openshift.io/cluster-monitoring: "true"
+    argocd.argoproj.io/managed-by: "gitops-argocd"
+    argocd.argoproj.io/managed-by: "openshift-gitops"
+  name: openshift-adp
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec: {}
